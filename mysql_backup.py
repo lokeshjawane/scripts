@@ -43,10 +43,3 @@ for i in range(len(args.databases)):
         print e.returncode
         exit(1)
 
-#for l in range( len(args.databases)):
-#	print args.databases[l]
-
-print args.databases
-#print cmd
-print os.geteuid()
-
