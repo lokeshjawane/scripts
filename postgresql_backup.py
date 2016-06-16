@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+
+#This script perform postgres DB backup.
+#Example to run script with parameter
+#./postgresql_backup.sh  -u <username> -h <db hostname> -p '<password>' -d <database1> <database2> <databaseN> -b <backupdirectory path>
+#sudo python postgresql_backup.py -d posgres testing_db -b /tmp/postgres -u postgres -p 'machine'
+
 import argparse
 import os
 import time
 import subprocess
-import commands
 
 
 #Date & rime for file
@@ -15,7 +21,6 @@ parser.add_argument('-p', '--password', help="DB hosts ip/hostname",dest='passwo
 parser.add_argument('-b', '--backupdir', help="DB backupdirectory",dest='backupdir')
 
 args = parser.parse_args()
-#print args.accumulate(args.integers)
 
 if os.geteuid() != 0:
 	print "Run script with root user or sudoer privileges"
@@ -30,9 +35,7 @@ if not os.path.exists(args.backupdir):
 	print "Backup directory created"
 
 
-#cmd = 'mysqldump -u '+ args.username +' -h '+args.hostname +' -p'+args.password +' mysql | gzip  > '+ args.backupdir +'/mysql_'+ timestamp+'.sql.gz '
-#os.system(cmd)
-#print cmd
+#Generate command & take DB backup
 for i in range(len(args.databases)):
     cmd = 'PGPASSWORD="'+ args.password+'" pg_dump -U '+ args.username +' -h '+args.hostname +' '+ args.databases[i] +' > '+ args.backupdir +'/'+ args.databases[i] +'_'+ timestamp+'.sql'
     try:
