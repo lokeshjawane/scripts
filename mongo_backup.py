@@ -37,7 +37,7 @@ cmd = 'mysqldump -u '+ args.username +' -h '+args.hostname +' -p'+args.password 
 for i in range(len(args.databases)):
 #    cmd = 'mysqldump -u '+ args.username +' -h '+args.hostname +' -p'+args.password +' '+ args.databases[i] +' > '+ args.backupdir +'/'+ args.databases[i] +'_'+ timestamp+'.sql'
     cmd1 = 'mongodump --host '+args.hostname+'--port '+args.port+' --username '+args.username+" --password '"+args.password+"' --db "+args.databases[i]+' --out /tmp/'+args.databases[i]+'_mongo_dump_'+timestamp
-    cmd2 = "tar -cz  /tmp/"+args.databases[i]+"_mongo_dump_"+timestamp +"-f "+args.backupdir+"/"+ args.databases[i] +"_mongo_dump_"+ timestamp+".tar.gz"
+    cmd2 = "tar -cz  /tmp/"+args.databases[i]+"_mongo_dump_"+timestamp +"-f "+args.backupdir+"/"+ args.databases[i] +"_mongo_dump_"+ timestamp+".tar.gz && rm -rf /tmp/"+args.databases[i]+"_mongo_dump_"+timestamp
     try:
         subprocess.check_call(cmd, shell=True)
         subprocess.check_call(cmd2, shell=True)
